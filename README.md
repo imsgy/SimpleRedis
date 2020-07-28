@@ -13,9 +13,10 @@
 3.  安装运行
 
 #### 软件界面
--    https://images.gitee.com/uploads/images/2020/0728/215913_1a75ca97_1055973.png
--    https://images.gitee.com/uploads/images/2020/0728/215641_96e4a7b5_1055973.jpeg
--    https://images.gitee.com/uploads/images/2020/0728/215853_3349122d_1055973.jpeg
+
+-    ![登录界面](https://github.com/imsgy/SimpleRedis/show/redis1.png)
+-    ![数据界面](https://github.com/imsgy/SimpleRedis/show/redis2.jpg)
+-    ![控制台界面](https://github.com/imsgy/SimpleRedis/show/redis3.jpg)
 
 #### Mac版安装包
 -   build/apps目录下SimpleRedis-0.0.1.dmg可供使用
