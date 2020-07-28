@@ -1,22 +1,26 @@
-# simple-redis
+# SimpleRedis
 
-> redis manager
+#### 描述
+使用electron-vue和node.js开发的一款redis数据管理客户端，支持多平台
 
-#### Build Setup
+#### 安装
 
-``` bash
-# install dependencies
-npm install
+1.  安装依赖包
+    - npm install(建议使用yarn install)
+2.  build生成安装程序
+    - npm run build
+    - 注：编译好的安装包在 build/apps 目录下
+3.  安装运行
 
-# serve with hot reload at localhost:9080
-npm run dev
+#### 软件界面
+-    https://images.gitee.com/uploads/images/2020/0728/215913_1a75ca97_1055973.png
+-    https://images.gitee.com/uploads/images/2020/0728/215641_96e4a7b5_1055973.jpeg
+-    https://images.gitee.com/uploads/images/2020/0728/215853_3349122d_1055973.jpeg
 
-# build electron application for production
-npm run build
+#### Mac版安装包
+-   build/apps目录下SimpleRedis-0.0.1.dmg可供使用
 
 
-```
 
----
-
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[45a3e22](https://github.com/SimulatedGREG/electron-vue/tree/45a3e224e7bb8fc71909021ccfdcfec0f461f634) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+#### 待完善功能
+1.    数据量过大时左侧栏滚动加载问题
