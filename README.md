@@ -14,9 +14,9 @@
 
 #### 软件界面
 
--    ![登录界面](https://github.com/imsgy/SimpleRedis/tree/master/show/redis1.png)
--    ![数据界面](https://github.com/imsgy/SimpleRedis/tree/master/show/redis2.jpg)
--    ![控制台界面](https://github.com/imsgy/SimpleRedis/tree/master/show/redis3.jpg)
+-    ![登录界面](https://github.com/imsgy/SimpleRedis/raw/master/show/redis1.png)
+-    ![数据界面](https://github.com/imsgy/SimpleRedis/raw/master/show/redis2.jpg)
+-    ![控制台界面](https://github.com/imsgy/SimpleRedis/raw/master/show/redis3.jpg)
 
 #### Mac版安装包
 -   build/apps目录下SimpleRedis-0.0.1.dmg可供使用
