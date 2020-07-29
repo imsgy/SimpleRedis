@@ -17,7 +17,7 @@
                 </el-tag>
             </span>
             <el-table :data="tableList" height="calc(100vh - 86px)" @row-click="clickRow" highlight-current-row
-                      ref="multipleTable" id="sideTable">
+                      ref="multipleTable" v-el-table-scroll="nameScroll">
                 <el-table-column prop="type" label="类型" width="100px" align="center">
                     <template slot-scope="scope">
                         <el-tag effect="dark" v-if="scope.row.r_type===1">{{scope.row.type}}</el-tag>
@@ -86,7 +86,9 @@
                         <div class="tabsInputDiv">
                             <el-input type="textarea" class="tabsInput" v-model="keyValueForm.params"></el-input>
                             <div class="addChangeButton">
-                                <el-button type="primary" plain @click="saveContent" :disabled="oldParams === keyValueForm.params">保 存</el-button>
+                                <el-button type="primary" plain @click="saveContent"
+                                           :disabled="oldParams === keyValueForm.params">保 存
+                                </el-button>
                                 <el-select style="float: right; margin-right: 10px; width: 100px" v-model="viewType"
                                            @change="viewTypeChange">
                                     <el-option label="Raw" :value="1"></el-option>
@@ -109,7 +111,7 @@
         <div class="footer">
             <el-form :inline="true" lable-width="40px">
                 <el-form-item label="索引数:">
-                    <el-tag type="success" effect="plain">{{tableList.length}}</el-tag>
+                    <el-tag type="success" effect="plain">{{dbSize}}</el-tag>
                 </el-form-item>
                 <el-divider direction="vertical"></el-divider>
                 <el-form-item label="数据库:">
@@ -257,26 +259,36 @@
 </template>
 
 <script>
-    import terminal from "./terminal";
     import api from '../libs/api';
+    import terminal from "./terminal";
+    import tableScroll from "../libs/scroll";
 
     export default {
         name: "main-page",
         components: {terminal},
+        directives: {
+            'el-table-scroll': tableScroll
+        },
         data() {
             return {
+                dbSize: 0,
+                viewType: 1,
+                redisType: 1,
+                editTitle: "",
+                oldParams: "",
+                activeName: "1",
+                redisConn: null,
+                viewVisible: true,
+                dialogVisible: false,
+                keyDialogVisible: false,
+                editDialogVisible: false,
+                keyData: [],
+                tableList: [],
+                dbOptions: [],
                 filter: {
                     params: "",
                     cursor: 2
                 },
-                oldParams: "",
-                viewType: 1,
-                viewVisible: true,
-                redisConn: null,
-                activeName: "1",
-                redisType: 1,
-                tableList: [],
-                dbOptions: [],
                 server: {
                     name: "",
                     host: "",
@@ -284,9 +296,6 @@
                     password: "",
                     db: 0
                 },
-                keyData: [],
-                dialogVisible: false,
-                keyDialogVisible: false,
                 nameForm: {
                     name: "",
                     r_type: 1
@@ -321,8 +330,6 @@
                     {label: "Raw", value: 1},
                     {label: "Json", value: 2}
                 ],
-                editDialogVisible: false,
-                editTitle: "",
                 editForm: {
                     name: "",
                     key: "",
@@ -347,10 +354,10 @@
             },
             'keyValueForm.params': function () {
                 if (this.keyValueForm.params) {
-                    try{
+                    try {
                         JSON.parse(this.keyValueForm.params);
                         this.viewVisible = false;
-                    }catch (e) {
+                    } catch (e) {
                         this.viewVisible = true;
                     }
                 }
@@ -368,30 +375,23 @@
                 });
             }
         },
-        mounted() {
-            let sideDom = document.getElementById("sideTable");
-            sideDom.addEventListener("scroll", function () {
-                let scrollDistance = sideDom.scrollHeight - sideDom.scrollTop - sideDom.clientHeight;
-                console.log(scrollDistance);
-                if (scrollDistance <= 0) {
-                    this.scrollFetch();
-                }
-            })
-        },
         methods: {
             fetch: function () {
                 if (this.activeName === '2') {
                     this.$refs.terminal.initData();
                 }
+                this.dbSize = 0;
                 this.viewType = 1;
                 this.keyData = [];
                 this.oldParams = "";
+                this.tableList = [];
                 this.keyValueForm.params = "";
                 this.filter.cursor = 0;
                 api.RedisInfo(this.redisConn, this.filter).then((res) => {
                     this.tableList = res.result;
+                    this.dbSize = res.size;
                     this.filter.cursor = res.cursor;
-                    if (this.tableList.length > 0) {
+                    if (this.dbSize > 0) {
                         this.clickRow(this.tableList[0]);
                     }
                 }).catch((err) => {
@@ -399,14 +399,19 @@
                 });
 
             },
-            scrollFetch: function () {
+            nameScroll: function () {
                 // 滚动刷新
-                api.RedisInfo(this.redisConn, this.filter).then((res) => {
-                    this.tableList.concat(res.result);
-                    this.filter.cursor = res.cursor;
-                }).catch((err) => {
-                    this.$layer_message(`请求失败:${err}`);
-                });
+                if (this.tableList.length < this.dbSize) {
+                    api.RedisInfo(this.redisConn, this.filter).then((res) => {
+                        this.tableList = this.tableList.concat(res.result);
+                        this.filter.cursor = res.cursor;
+                    }).catch((err) => {
+                        this.$layer_message(`请求失败:${err}`);
+                    });
+                }
+            },
+            keyScroll: function(){
+
             },
             dbChange: function () {
                 // 更新链接
