@@ -410,7 +410,7 @@
                     });
                 }
             },
-            keyScroll: function(){
+            keyScroll: function () {
 
             },
             dbChange: function () {
@@ -729,6 +729,7 @@
         bottom: 30px;
         width: 100%;
         border: 1px solid beige;
+        height: calc(100vh - 100px);
     }
 
     >>> .el-dialog.el-dialog--center {
@@ -761,9 +762,9 @@
     }
 
     .tabsTableDiv {
-        width: 250px;
+        width: 300px;
         border-right: 1px solid beige;
-        height: calc(100vh - 78px);
+        height: calc(100vh - 100px);
         margin-top: -25px;
     }
 
