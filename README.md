@@ -1,4 +1,4 @@
-# SimpleRedis
+# MinorRedis
 
 #### 描述
 使用electron-vue和node.js开发的一款redis数据管理客户端，支持多平台
